@@ -11,8 +11,8 @@ The source code is released under the GNU GPL v2 License. (See LICENSE for more 
 Import or clone the source into Eclipse (or your fav) and make sure you have at least Java JDK 8 installed. Compile and start the program. Fill out the server and mail header text fields and adjust the send options. Load a recipients list and the html message. Hit start and enjoy :D! If an error occurs or youre just curious, there is a log available.
 
 #### Please note: The recipients list must be formatted like:
-mail1@server.com
-mail2@server.com
+mail1@server.com   
+mail2@server.com   
 me@something.org
 
 ### Third-party
