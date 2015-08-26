@@ -22,7 +22,11 @@ package de.mh.mailer;
 import javax.mail.*;
 import javax.mail.internet.*;
 import javax.swing.JFrame;
+
+import java.io.File;
 import java.io.PrintWriter;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -34,8 +38,6 @@ import java.util.*;
  * Licensed under GNU GPL v2.
  */
 public class Mailer {
-
-	private String log = "";
 	
 	public List<String> recipients;
 	public int index = 0;
@@ -45,6 +47,7 @@ public class Mailer {
 	public String password;
 	public String from;
 	public String subject;
+	public File logfile;
 	//public List<File> attachments = new ArrayList<>();
 	
 
@@ -54,31 +57,40 @@ public class Mailer {
 	
 	public Mailer() {
 		
-		// add shutdown hook
-		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-			@Override
-			public void run() {
-				if (log.length() > 0) {
-					// save log
-					try {
-				        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
-						PrintWriter writer = new PrintWriter("mailer" + sdf.format(new Date()) + ".log");
-						writer.print(log);
-						writer.close();
-						System.out.println("Log saved.");
-					} catch (Exception e) {}
-				}
-			}
-		}));
+		// init Localizer
+		Localizer.init();
 		
+		// create logfile
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmmss");
+		logfile = new File("mailer" + sdf.format(new Date()) + ".log");
+		
+		// create and show window
 		JFrame window = new Window(this);
 		window.setVisible(true);
 		
 	}
 	
 	public void log(String text) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        log = sdf.format(new Date()) + " " + text + "\n" + log;
+		
+		try {
+			
+			// read log
+			String log = "";
+			if (logfile.exists()) log = new String(Files.readAllBytes(logfile.toPath()), StandardCharsets.UTF_8);
+					
+			// log
+	        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	        log = sdf.format(new Date()) + " " + text + "\n" + log;
+					
+			// save log
+			PrintWriter writer = new PrintWriter(logfile);
+			writer.print(log);
+			writer.close();
+			
+		} catch(Exception e) { 
+			System.out.println(e.toString());
+		}
+		
 	}
 	
 	public boolean send() throws Exception {

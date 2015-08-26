@@ -77,7 +77,7 @@ public class Window extends JFrame {
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
-		JLabel lblHost = new JLabel("Host");
+		JLabel lblHost = new JLabel(Localizer.get("Host"));
 		lblHost.setBounds(6, 12, 61, 16);
 		contentPane.add(lblHost);
 		
@@ -91,7 +91,7 @@ public class Window extends JFrame {
 		contentPane.add(textFrom);
 		textFrom.setColumns(10);
 		
-		JLabel lblVon = new JLabel("From");
+		JLabel lblVon = new JLabel(Localizer.get("From"));
 		lblVon.setBounds(6, 132, 61, 16);
 		contentPane.add(lblVon);
 		
@@ -100,7 +100,7 @@ public class Window extends JFrame {
 		contentPane.add(textSubject);
 		textSubject.setColumns(10);
 		
-		JLabel lblBetreff = new JLabel("Subject");
+		JLabel lblBetreff = new JLabel(Localizer.get("Subject"));
 		lblBetreff.setBounds(6, 172, 61, 16);
 		contentPane.add(lblBetreff);
 		
@@ -109,7 +109,7 @@ public class Window extends JFrame {
 		contentPane.add(textUsername);
 		textUsername.setColumns(10);
 		
-		JLabel lblBenutzername = new JLabel("Username");
+		JLabel lblBenutzername = new JLabel(Localizer.get("Username"));
 		lblBenutzername.setBounds(6, 52, 93, 16);
 		contentPane.add(lblBenutzername);
 		
@@ -118,16 +118,16 @@ public class Window extends JFrame {
 		contentPane.add(textPassword);
 		textPassword.setColumns(10);
 		
-		JLabel lblPasswort = new JLabel("Password");
+		JLabel lblPasswort = new JLabel(Localizer.get("Password"));
 		lblPasswort.setBounds(6, 92, 61, 16);
 		contentPane.add(lblPasswort);
 		
-		JLabel lblAdresslisteUnbekannt = new JLabel("No recipients loaded");
+		JLabel lblAdresslisteUnbekannt = new JLabel(Localizer.get("No recipients loaded"));
 		lblAdresslisteUnbekannt.setHorizontalAlignment(SwingConstants.CENTER);
 		lblAdresslisteUnbekannt.setBounds(16, 287, 158, 16);
 		contentPane.add(lblAdresslisteUnbekannt);
 		
-		JLabel lblNachrichtUnbekannt = new JLabel("No message loaded");
+		JLabel lblNachrichtUnbekannt = new JLabel(Localizer.get("No message loaded"));
 		lblNachrichtUnbekannt.setHorizontalAlignment(SwingConstants.CENTER);
 		lblNachrichtUnbekannt.setBounds(197, 287, 159, 16);
 		contentPane.add(lblNachrichtUnbekannt);
@@ -138,7 +138,7 @@ public class Window extends JFrame {
 		progressBar.setStringPainted(true);
 		contentPane.add(progressBar);
 		
-		JButton buttonLoadRecipients = new JButton("Load recipients list");
+		JButton buttonLoadRecipients = new JButton(Localizer.get("Load recipients list"));
 		buttonLoadRecipients.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -151,7 +151,7 @@ public class Window extends JFrame {
 						progressBar.setMaximum(mailer.recipients.size());
 						progressBar.setString("0 / " + mailer.recipients.size());
 					} catch (Exception e1) {
-						JOptionPane.showMessageDialog(Window.this, e1.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(Window.this, e1.toString(), Localizer.get("Error"), JOptionPane.ERROR_MESSAGE);
 						mailer.log(e1.toString());
 					}
 					lblAdresslisteUnbekannt.setText(file.getName());
@@ -163,7 +163,7 @@ public class Window extends JFrame {
 		buttonLoadRecipients.setBounds(6, 246, 178, 29);
 		contentPane.add(buttonLoadRecipients);
 		
-		JButton buttonLoadMessage = new JButton("Load message");
+		JButton buttonLoadMessage = new JButton(Localizer.get("Load message"));
 		buttonLoadMessage.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
@@ -203,7 +203,7 @@ public class Window extends JFrame {
 						mailer.message = mailer.message.replace("src=\"", "src=\"cid:");
 						*/
 					} catch (Exception e1) {
-						JOptionPane.showMessageDialog(Window.this, e1.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(Window.this, e1.toString(), Localizer.get("Error"), JOptionPane.ERROR_MESSAGE);
 						mailer.log(e1.toString());
 					}
 					lblNachrichtUnbekannt.setText(file.getName());
@@ -220,7 +220,7 @@ public class Window extends JFrame {
 		numInterval.setModel(new SpinnerNumberModel(1, 1, 60, 1));
 		contentPane.add(numInterval);
 		
-		JLabel lblIntervallmin = new JLabel("Interval (min)");
+		JLabel lblIntervallmin = new JLabel(Localizer.get("Interval (min)"));
 		lblIntervallmin.setBounds(6, 212, 93, 16);
 		contentPane.add(lblIntervallmin);
 		
@@ -234,24 +234,24 @@ public class Window extends JFrame {
 		numOffset.setModel(new SpinnerNumberModel(0, 0, null, 1));
 		contentPane.add(numOffset);
 		
-		JLabel lblMailsProIntervall = new JLabel("Mails per interval");
+		JLabel lblMailsProIntervall = new JLabel(Localizer.get("Mails per interval"));
 		lblMailsProIntervall.setBounds(294, 212, 117, 16);
 		contentPane.add(lblMailsProIntervall);
 		
-		buttonStart = new JButton("Start");
+		buttonStart = new JButton(Localizer.get("Start"));
 		buttonStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
 				// check inputs
 				String errors = "";
-				if (textHost.getText().length() == 0) errors += "No host entered\n";
-				if (textUsername.getText().length() == 0) errors += "No username entered\n";
-				if (textPassword.getText().length() == 0) errors += "No password entered\n";
-				if (textFrom.getText().length() == 0) errors += "No from entered\n";
-				if (textSubject.getText().length() == 0) errors += "No subject entered\n";
-				if ((int)numOffset.getValue() >= mailer.recipients.size()) errors += "Offset too high";
+				if (textHost.getText().length() == 0) errors += Localizer.get("No host entered\n");
+				if (textUsername.getText().length() == 0) errors += Localizer.get("No username entered\n");
+				if (textPassword.getText().length() == 0) errors += Localizer.get("No password entered\n");
+				if (textFrom.getText().length() == 0) errors += Localizer.get("No from entered\n");
+				if (textSubject.getText().length() == 0) errors += Localizer.get("No subject entered\n");
+				if ((int)numOffset.getValue() >= mailer.recipients.size()) errors += Localizer.get("Offset too high");
 				if (errors.length() > 0) {
-					JOptionPane.showMessageDialog(Window.this, errors, "Error", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(Window.this, errors, Localizer.get("Error"), JOptionPane.ERROR_MESSAGE);
 					return;
 				}
 				
@@ -297,7 +297,7 @@ public class Window extends JFrame {
 		buttonStart.setBounds(367, 246, 111, 29);
 		contentPane.add(buttonStart);
 		
-		buttonStop = new JButton("Stop");
+		buttonStop = new JButton(Localizer.get("Stop"));
 		buttonStop.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				
@@ -333,7 +333,7 @@ public class Window extends JFrame {
 		buttonStop.setVisible(false);
 		contentPane.add(buttonStop);
 		
-		JLabel lblOffset = new JLabel("Offset");
+		JLabel lblOffset = new JLabel(Localizer.get("Offset"));
 		lblOffset.setBounds(162, 212, 39, 16);
 		contentPane.add(lblOffset);
 		
@@ -384,7 +384,7 @@ public class Window extends JFrame {
 						progressBar.setValue(mailer.index);
 						progressBar.setString(mailer.index + " / " + mailer.recipients.size());
 					} catch (Exception e1) {
-						JOptionPane.showMessageDialog(Window.this, e1.toString(), "Error", JOptionPane.ERROR_MESSAGE);
+						JOptionPane.showMessageDialog(Window.this, e1.toString(), Localizer.get("Error"), JOptionPane.ERROR_MESSAGE);
 						mailer.log(e1.toString());
 						numOffset.setValue(mailer.index + 1);
 						mailer.log("An error occurred");
@@ -396,7 +396,7 @@ public class Window extends JFrame {
 					if (mailer.index >= mailer.recipients.size()) {
 						mailer.log("All messages delivered successfully");
 						buttonStop.doClick();
-						JOptionPane.showMessageDialog(Window.this, "All messages delivered successfully", "Info", JOptionPane.INFORMATION_MESSAGE);
+						JOptionPane.showMessageDialog(Window.this, Localizer.get("All messages delivered successfully"), "Info", JOptionPane.INFORMATION_MESSAGE);
 						break;
 					}
 					
