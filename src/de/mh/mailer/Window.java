@@ -387,11 +387,41 @@ public class Window extends JFrame {
 						progressBar.setValue(mailer.index);
 						progressBar.setString(mailer.index + " / " + mailer.recipients.size());
 					} catch (Exception e1) {
-						JOptionPane.showMessageDialog(Window.this, e1.toString(), Localizer.get("Error"), JOptionPane.ERROR_MESSAGE);
-						mailer.log(e1.toString());
-						mailer.log("An error occurred");
-						mailer.index++;
-						if (mailer.index < mailer.recipients.size()) buttonStop.doClick();
+						
+						// filter domain errors
+						if (e1.toString().contains("domain does not exist")) {
+							mailer.log("Ignore domain error: " + e1.toString());
+							
+							// save missing domain
+							try {
+								String domains = "";
+								File fileDomains = new File("missingDomains.txt");
+								if (fileDomains.exists()) domains = new String(Files.readAllBytes(fileDomains.toPath()), StandardCharsets.UTF_8);
+						        domains += mailer.recipients.get(mailer.index) + " (index: " + mailer.index + ")\n";
+								PrintWriter writer = new PrintWriter(fileDomains);
+								writer.print(domains);
+								writer.close();
+							} catch (Exception e2) {
+								System.out.println(e2.toString());
+							}
+							
+							mailer.index++;
+							progressBar.setValue(mailer.index);
+							progressBar.setString(mailer.index + " / " + mailer.recipients.size());
+							
+						} else {
+							
+							JOptionPane.showMessageDialog(Window.this, e1.toString(), Localizer.get("Error"), JOptionPane.ERROR_MESSAGE);
+							mailer.log(e1.toString());
+							mailer.log("An error occurred");
+							mailer.index++;
+							if (mailer.index < mailer.recipients.size()) {
+								buttonStop.doClick();
+								break;
+							}
+							
+						}
+						
 					}
 					
 					// all mails sent -> stop timer
