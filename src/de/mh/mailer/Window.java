@@ -321,6 +321,9 @@ public class Window extends JFrame {
 				buttonStart.setVisible(true);
 				buttonStop.setVisible(false);
 				
+				// set offset if stopped manually (or due to an error)
+				if (mailer.index < mailer.recipients.size()) numOffset.setValue(mailer.index);
+								
 				// reset
 				mailer.log("Stopped (index: " + mailer.index + ")");
 				mailer.index = 0;
@@ -386,16 +389,16 @@ public class Window extends JFrame {
 					} catch (Exception e1) {
 						JOptionPane.showMessageDialog(Window.this, e1.toString(), Localizer.get("Error"), JOptionPane.ERROR_MESSAGE);
 						mailer.log(e1.toString());
-						numOffset.setValue(mailer.index + 1);
 						mailer.log("An error occurred");
-						buttonStop.doClick();
-						break;
+						mailer.index++;
+						if (mailer.index < mailer.recipients.size()) buttonStop.doClick();
 					}
 					
 					// all mails sent -> stop timer
 					if (mailer.index >= mailer.recipients.size()) {
 						mailer.log("All messages delivered successfully");
 						buttonStop.doClick();
+						numOffset.setValue(0);
 						JOptionPane.showMessageDialog(Window.this, Localizer.get("All messages delivered successfully"), "Info", JOptionPane.INFORMATION_MESSAGE);
 						break;
 					}

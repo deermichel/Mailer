@@ -51,6 +51,7 @@ public class Localizer {
 			localized.put("No from entered\n", "Kein Absender angegeben\n");
 			localized.put("No subject entered\n", "Kein Betreff angegeben\n");
 			localized.put("Offset too high", "Offset zu hoch");
+			localized.put("All messages delivered successfully", "Alle Nachrichten wurden verschickt");
 			
 		}
 		

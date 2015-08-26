@@ -124,7 +124,7 @@ public class Mailer {
 
 		// setup mail header
 		msg.setFrom(new InternetAddress(from));
-		msg.addRecipient(Message.RecipientType.TO, new InternetAddress(recipients.get(index)));
+		msg.addRecipient(Message.RecipientType.TO, new InternetAddress(recipients.get(index).trim()));
 		msg.setSubject(subject);
 		
 		// create main part
